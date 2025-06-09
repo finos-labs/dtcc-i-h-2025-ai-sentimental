@@ -5,26 +5,34 @@
 #   Alternatively, see the collection of .gitignore templates
 #       https://github.com/github/gitignore
 
-# macOS-specific
-.DS_Store
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Build directories
-dist
-site
-html
+# Jupyter Notebook
+.ipynb_checkpoints
 
-# Virtual environments
-venv
+# Environments
+.env
 
-# Miscellaneous
-.idea
-.vscode
+# Test Files
+*.temp/
 
-# Python directories
-__pycache__
-*.pyc
-*.tmp
-.pytest_cache
+# PyPI configuration file
+.pypirc
 
-# MSFT Office
-~$*.*
+# Act Files
+act*
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+terraform.tfstate.backup
+*/*.tfvars
+
