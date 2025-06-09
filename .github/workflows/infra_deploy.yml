@@ -1,0 +1,114 @@
+name: Deploy Infra
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Select action"
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
+
+env:
+  TERRAFORM_VERSION: 1.12.1
+  TERRAFORM_DIR: infra
+
+jobs:
+  terraform_apply:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TERRAFORM_DIR }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        
+      - name: Debug Inputs
+        run: echo "Action input is ${{ github.event.inputs.action }}"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+      - name: Test AWS Connection (Get Caller Identity)
+        run: aws sts get-caller-identity
+
+      - name: Install Terraform
+        run: |
+          wget https://releases.hashicorp.com/terraform/${{ env.TERRAFORM_VERSION }}/terraform_${{ env.TERRAFORM_VERSION }}_linux_amd64.zip
+          unzip terraform_${{ env.TERRAFORM_VERSION }}_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform -version
+
+      - name: Terraform Init and Plan
+        run: |
+          terraform init
+          terraform validate
+          terraform plan \
+          -var="deep_seek_api_key=${{ secrets.DEEPSEEK_API_KEY }}" \
+          -var="region=${{ secrets.AWS_REGION }}"
+
+      - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve \
+          -var="deep_seek_api_key=${{ secrets.DEEPSEEK_API_KEY }}" \
+          -var="region=${{ secrets.AWS_REGION }}"
+
+
+  terraform_destroy:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'destroy'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TERRAFORM_DIR }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Test AWS Connection (Get Caller Identity)
+        run: aws sts get-caller-identity
+
+      - name: Install Terraform
+        run: |
+          wget https://releases.hashicorp.com/terraform/${{ env.TERRAFORM_VERSION }}/terraform_${{ env.TERRAFORM_VERSION }}_linux_amd64.zip
+          unzip terraform_${{ env.TERRAFORM_VERSION }}_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform -version
+
+      - name: Terraform Init and Plan
+        run: |
+          terraform init
+          terraform validate
+          terraform plan \
+          -var="deep_seek_api_key=${{ secrets.DEEPSEEK_API_KEY }}" \
+          -var="region=${{ secrets.AWS_REGION }}"
+
+      - name: Terraform Destroy
+        run: |
+          terraform destroy -auto-approve \
+          -var="deep_seek_api_key=${{ secrets.DEEPSEEK_API_KEY }}" \
+          -var="region=${{ secrets.AWS_REGION }}"

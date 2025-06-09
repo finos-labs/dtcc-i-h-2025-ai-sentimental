@@ -1,0 +1,37 @@
+name: FinBot
+
+on:
+  workflow_dispatch:
+    inputs:
+      sleep_time:
+        description: 'Seconds to wait after starting Streamlit'
+        required: true
+        default: '10'       # default value as string
+        type: number
+
+jobs:
+  validate-app:
+    runs-on: ubuntu-latest
+    env:
+      SLEEP_TIME: ${{ github.event.inputs.sleep_time }}
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12.9'
+
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install --root-user-action=ignore -r src/requirements.txt
+
+    - name: ✅ Run Streamlit app headless (CI check)
+      run: |
+        cd src
+        streamlit run main.py --server.headless true &
+        sleep $SLEEP_TIME
+        pkill streamlit
