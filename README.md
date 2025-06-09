@@ -15,13 +15,18 @@ More Info - https://communications.dtcc.com/dtcc-ai-hackathon-registration-17810
 Commit Early & Commit Often!!!
 
 ## Project Name
-
+Finbot
 
 ### Project Details
-
+Finbot is a web application that interacts with the data and presents the user with a user-friendly interface to investigate the data. The application uses a Flask backend and a React frontend. The Flask backend is responsible for handling API calls and interacting with the data. The React frontend is responsible for rendering the data to the user in a user-friendly format. The user can interact with the data by submitting queries to the API and the application will return the results to the user in a user-friendly format.
 
 ### Team Information
+We are team AI Sentinels
 
+### Team Members
+- Gayathri
+- Amol
+- Sayan
 
 ## Using DCO to sign your commits
 
