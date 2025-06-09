@@ -23,7 +23,7 @@ resource "aws_instance" "finbot_ec2" {
               source ~/finbot/bin/activate
               mkdir -p /home/ubuntu/app
               cd /home/ubuntu/app
-              git clone https://github.com/Sayan-sam/finbot.git .
+              git clone https://github.com/finos-labs/dtcc-i-h-2025-ai-sentimental.git .
               cd src
               pip install -r requirements.txt
               nohup streamlit run main.py --server.port 8501 --server.address 0.0.0.0 --server.enableCORS false > streamlit.log 2>&1 &
