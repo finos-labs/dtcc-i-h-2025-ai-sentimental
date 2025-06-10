@@ -1,10 +1,12 @@
 import os
 import requests
 from dotenv import load_dotenv
+from .auth import fetch_deep_seek_api_key
 
 load_dotenv(override=True)
 
 api_key = os.getenv("OPENROUTER_API_KEY")
+api_key = fetch_deep_seek_api_key()
 
 def ask_deepseek(prompt):
     url = "https://openrouter.ai/api/v1/chat/completions"
