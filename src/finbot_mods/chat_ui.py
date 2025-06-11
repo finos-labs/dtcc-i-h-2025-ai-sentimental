@@ -1,9 +1,9 @@
 import streamlit as st
-from .ai import ask_deepseek
+from .ai import ask_langchain
 
 def get_response_from_deepseek(prompt):
     # Replace with actual DeepSeek API call logic
-    res = ask_deepseek(prompt)
+    res = ask_langchain(prompt)
     return f"{res}"
 
 def init_session_state():
