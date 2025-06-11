@@ -3,11 +3,7 @@ import requests
 from dotenv import load_dotenv
 from .auth import fetch_deep_seek_api_key
 from .db_init import db
-from .web_init import *
 
-load_dotenv(override=True)
-
-api_key = os.getenv("OPENROUTER_API_KEY")
 api_key = fetch_deep_seek_api_key()
 
 def ask_deepseek(prompt):
@@ -56,4 +52,4 @@ def ask_langchain_web(prompt):
             }
         ]
     }
-    generate_query_or_respond(input, response_model)["messages"][-1]
+    return generate_query_or_respond(input, response_model)["messages"][-1]

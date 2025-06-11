@@ -4,7 +4,6 @@ from langchain_aws import BedrockEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain.tools.retriever import create_retriever_tool
 
-from langchain.chat_models import init_chat_model
 
 from .urlscrape import crawl_with_prefix
 
@@ -25,10 +24,12 @@ vectorstore = InMemoryVectorStore.from_documents(
 )
 
 retriever = vectorstore.as_retriever()
+
+# Can create multiple retrieval tools
 retriever_tool = create_retriever_tool(
     retriever,
-    "retrieve_blog_posts",
-    "Search and return information about Lilian Weng blog posts.",
+    "opinions",
+    "Search and return information about opinions of the Hindustan Times.",
 )
 
 def generate_query_or_respond(state, response_model):
@@ -37,6 +38,7 @@ def generate_query_or_respond(state, response_model):
     """
     response = (
         response_model
+        # Attach those tools here
         .bind_tools([retriever_tool]).invoke(state["messages"])
     )
     return {"messages": [response]}
