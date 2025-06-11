@@ -18,7 +18,9 @@ Commit Early & Commit Often!!!
 FinSeek 
 
 ### Project Details
-FinSeek is a web application that interacts with the data and presents the user with a user-friendly interface to investigate the data. The application uses a Flask backend and a React frontend. The Flask backend is responsible for handling API calls and interacting with the data. The React frontend is responsible for rendering the data to the user in a user-friendly format. The user can interact with the data by submitting queries to the API and the application will return the results to the user in a user-friendly format.
+FinSeek is a chatbot . The system begins with the user entering a prompt through a chatbot interface. This prompt is sent to Claude 3.5 LLM, which interacts with LangChain to orchestrate data retrieval and reasoning(RAG). LangChain is connected to a InMemoryVector Database for semantic search across data sources such as websites and PDFs. Additionally, a SQLite database serves as a bridge to structured data stored in CSV files.
+
+Based on the retrieved data and LLM processing, a response is generated and returned to the chatbot UI, delivering a tailored answer back to the user..
 
 ### Team Information
 We are team AI Sentinels
