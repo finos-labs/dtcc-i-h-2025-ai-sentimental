@@ -26,7 +26,7 @@ def sidebar_ui():
                 st.markdown(f"**{msg['role'].capitalize()}:** {msg['content']}")
 
 def chat_ui():
-    st.title("🤖 FINTECH CHATBOT")
+    st.title("🤖 FINSEEK CHATBOT")
 
     user_input = st.chat_input("Type your message...")
 
