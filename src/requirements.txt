@@ -9,3 +9,5 @@ langchain-community
 langchain-experimental
 langchain-aws
 pandas
+beautifulsoup4
+langgraph
