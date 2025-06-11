@@ -3,9 +3,6 @@ from .ai import ask_langchain_db
 
 def get_response_from_deepseek(prompt):
     # Replace with actual DeepSeek API call logic
-
-
-
     res = ask_langchain_db(prompt)
     return f"{res}"
 

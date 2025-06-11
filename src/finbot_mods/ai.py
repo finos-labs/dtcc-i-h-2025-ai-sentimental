@@ -41,15 +41,3 @@ def ask_langchain_db(prompt):
     agent_executor = create_sql_agent(llm, db=db, agent_type="openai-tools", verbose=True)
     res = agent_executor.invoke({"input": prompt})
     return res["output"][0]["text"]
-
-def ask_langchain_web(prompt):
-    response_model = init_chat_model("us.anthropic.claude-3-5-sonnet-20240620-v1:0", model_provider="bedrock_converse")
-    input = {
-        "messages": [
-            {
-                "role": "user",
-                "content":f"{prompt}",
-            }
-        ]
-    }
-    return generate_query_or_respond(input, response_model)["messages"][-1]
