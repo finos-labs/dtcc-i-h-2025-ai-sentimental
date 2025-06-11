@@ -4,6 +4,9 @@ from langchain_aws import BedrockEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain.tools.retriever import create_retriever_tool
 
+import os
+
+os.environ["AWS_REGION"] = "us-east-2"
 
 from .urlscrape import crawl_with_prefix
 
