@@ -6,7 +6,7 @@ resource "aws_iam_instance_profile" "ec2_ssm_instance_profile" {
 
 resource "aws_instance" "finbot_ec2" {
   ami                         = "ami-004364947f82c87a0"
-  instance_type               = "t2.micro"
+  instance_type               = "m5.large"
   key_name                    = aws_key_pair.deployer.key_name
   subnet_id                   = aws_subnet.main_subnet.id
   security_groups             = [aws_security_group.finbot_sg.id]
