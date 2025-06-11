@@ -45,4 +45,4 @@ def ask_langchain(prompt):
     llm = init_chat_model("us.anthropic.claude-3-5-sonnet-20240620-v1:0", model_provider="bedrock_converse")
     agent_executor = create_sql_agent(llm, db=db, agent_type="openai-tools", verbose=True)
     res = agent_executor.invoke({"input": prompt})
-    return res["output"]["text"]
+    return res["output"][0]["text"]
