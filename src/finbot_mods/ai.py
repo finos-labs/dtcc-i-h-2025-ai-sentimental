@@ -3,6 +3,7 @@ import requests
 from dotenv import load_dotenv
 from .auth import fetch_deep_seek_api_key
 from .db_init import db
+from .web_init import run_rag_query
 
 api_key = fetch_deep_seek_api_key()
 
